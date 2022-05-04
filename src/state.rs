@@ -320,7 +320,7 @@ Outcome:
                         if abstract_width < 540 {
                             // Normal
                             Rational {
-                                numerator: 210,
+                                numerator: 240,
                                 denominator: 360,
                             }
                         } else {
