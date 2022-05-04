@@ -294,7 +294,7 @@ Outcome:
                 // Based on what works on the L5.
                 // Exceeding that probably wastes space. Reducing makes typing harder.
                 const IDEAL_TARGET_SIZE: Rational<Millimeter> = Rational {
-                    numerator: Millimeter(948),
+                    numerator: Millimeter(1084),
                     denominator: 100,
                 };
 
@@ -621,7 +621,7 @@ pub mod test {
             }),
             Some(PixelSize {
                 scale_factor: 2,
-                pixels: 420,
+                pixels: 480,
             }),
         );
     }
