@@ -76,8 +76,10 @@ foreach layout : [
     'es+cat',
     'fi',
     'fr', 'fr_wide',
+    'ge',
     'gr', 'gr_wide',
     'gr+polytonic',
+    'fr+bepo', 'fr+bepo_wide',
     'il',
     'ir',
     'it',
@@ -98,6 +100,8 @@ foreach layout : [
     'terminal/fr_wide', 
     'terminal/us',
     'terminal/us_wide',
+    'terminal/us+dvorak',
+    'terminal/us+dvorak_wide',
     
     # Block: Not languages.
     'emoji/us',
