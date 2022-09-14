@@ -45,6 +45,7 @@ deps = [
   dependency('gio-unix-2.0'),
   dependency('gnome-desktop-3.0', version: '>=3.0'),
   dependency('gtk+-3.0', version: '>=3.0'),
+  dependency('libbsd'),
   dependency('libfeedback-0.0'),
   dependency('wayland-client', version: '>=1.14'),
   dependency('xkbcommon'),
@@ -63,7 +64,7 @@ rslibs = custom_target(
     install: false,
     console: true,
     command: [cargo_build] + ['@OUTPUT@', '--lib'] + cargo_build_flags,
-    depends: cargo_toml,
+    depends: cargo_deps,
 )
 
 build_rstests = custom_target(
@@ -78,7 +79,7 @@ build_rstests = custom_target(
     install: false,
     console: true,
     command: [cargo_script, 'test', '--no-run'] + cargo_build_flags,
-    depends: [rslibs, cargo_toml], # no point building tests if the code itself fails
+    depends: [rslibs, cargo_deps], # no point building tests if the code itself fails
 )
 
 test(
@@ -88,7 +89,7 @@ test(
     env: ['SOURCE_DIR=' + meson.source_root()],
     # this is a whole Carg-based test suite, let it run for a while
     timeout: 900,
-    depends: [build_rstests, cargo_toml],
+    depends: [build_rstests, cargo_deps],
 )
 
 libsqueekboard = static_library('libsqueekboard',

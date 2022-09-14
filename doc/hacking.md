@@ -218,18 +218,20 @@ Releases
 
 Squeekboard should get a new release every time something interesting comes in. Preferably when there are no known bugs too. People will rely on theose releases, after all.
 
-### 1. Update `Cargo.toml`.
+### 1. Update `Cargo.lock.newer`.
 
-While the file is not actually used, it's a good idea to save the config in case some rare bug appears in dependencies.
+Build squeekboard with the `newer=true` Meson flag.
 
 ```
-cd squeekboard-build
+cd .../squeekboard-build-newer
 .../squeekboard-source/cargo.sh update
 ninja test
-cp ./Cargo.lock .../squeekboard-source
+cp ./Cargo.lock .../squeekboard-source/Cargo.lock.newer
 ```
 
-Then commit the updated `Cargo.lock`.
+Then commit the updated file.
+
+The normal `Cargo.lock` should not get updated because it targets a version of Deban that ships Cargo that can't deal with fresher packages.
 
 ### 2. Choose the version number
 
@@ -254,16 +256,32 @@ Inspect `debian/changelog`, and make sure the first line contains the correct ve
 squeekboard (1.13.0pureos0~amber0) amber-phone; urgency=medium
 ```
 
-Commit the updated `debian/changelog`. The commit message should contain the release version and a description of changes.
+Add the updated `debian/changelog` to the commit. The commit message should contain the release version and a description of changes.
 
-> Release 1.13.0 "Externality"
->
-> Changes:
->
-> - A system for latching and locking views
-> ...
+### 5. Update the NEWS file
 
-### 5. Create a signed tag for downstreams
+Summarize the changes since the last release in the NEWS file. Use the Markdown syntax, e.g.
+
+```
+1.13.0 "Externality"
+-----------------------------
+
+Changes:
+- A system for latching and locking views
+...
+```
+
+### 6. Commit changes
+
+Generate a commit message from the news file:
+
+```
+tools/make_message | git commit --file=- ...
+```
+
+If the commit message looks wrong, fix the NEWS file, and do `git commit --amend`.
+
+### 7. Create a signed tag for downstreams
 
 The tag should be the version number with "v" in front of it. The tag message should be "squeekboard" and the tag name. Push it to the upstream repository:
 
@@ -272,15 +290,6 @@ git tag -s -u my_address@example.com v1.13.0 -m "squeekboard v1.13.0"
 git push v1.13.0
 ```
 
-### 5. Create a signed tag for packaging
-
-Similar to the above, but format it for the PureOS downstream.
-
-```
-git tag -s -u my_address@example.com 'pureos/1.13.0pureos0_amber0' -m 'squeekboard 1.13.0pureos0_amber0'
-git push 'pureos/1.13.0pureos0_amber0'
-```
-
-### 6. Rejoice
+### 8. Rejoice
 
 You released a new version of Squeekboard, and made it available on PureOS. Congratulations.
